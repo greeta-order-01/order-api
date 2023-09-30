@@ -1,0 +1,30 @@
+name: Delivery Stage
+on:
+  workflow_run:
+    workflows: ['Commit Stage']
+    types: [completed]
+    branches: master
+concurrency: acceptance
+
+env:
+  OWNER: greeta-movie
+  REGISTRY: ghcr.io
+  APP_REPO: movies-api
+  DEPLOY_REPO: movies-infra
+  VERSION: ${{ github.sha }}
+
+jobs:
+  deliver:
+    name: Deliver release candidate to production
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Deliver application to production
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.DISPATCH_TOKEN }}
+          repository: ${{ env.OWNER }}/${{ env.DEPLOY_REPO }}
+          event-type: app_delivery
+          client-payload: '{
+            "app_name": "${{ env.APP_REPO }}",
+            "app_version": "${{ env.VERSION }}"
+          }'

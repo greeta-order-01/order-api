@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    bootstrap:
+      enabled: true
+    loadbalancer:
+      ribbon:
+        enabled: false
+    gateway:
+      default-filters:
+        - TokenRelay
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: order
+          uri: lb://order
+          predicates:
+            - Path=/order/**
+          filters:
+            - RewritePath=/order/(?<path>.*), /$\{path}
+  keycloak:
+      server-url: http://keycloak-server:8080
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${spring.keycloak.server-url}/realms/order-realm
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
+jwt:
+  auth:
+    converter:
+      resource-id: order-app
+      principal-attribute: preferred_username
+
+order-app:
+  base-url: http://localhost:3000
+  redirect-url: ${order-app.base-url}/*
+
+logging:
+  pattern: 
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"  
+    console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+  level:
+    org.springframework.cloud.kubernetes: TRACE
+
+info:
+  system: Gateway Service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bindings, configprops, env, flyway, functions, health, heapdump, info, loggers, mappings, prometheus
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
+  info:
+    env:
+      enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}

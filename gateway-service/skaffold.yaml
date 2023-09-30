@@ -1,0 +1,14 @@
+apiVersion: skaffold/v4beta5
+kind: Config
+metadata:
+  name: gateway-service
+build:
+  artifacts:
+    - image: piomin/gateway
+      jib: {}
+  tagPolicy:
+    gitCommit: {}
+manifests:
+  rawYaml:
+    - ../k8s/privileges.yaml
+    - k8s/**.yaml
