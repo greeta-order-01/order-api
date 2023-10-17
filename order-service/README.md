@@ -1,6 +1,6 @@
 # springboot-react-keycloak
 
-The goal of this project is to secure `erp-app` using [`Keycloak`](https://www.keycloak.org/)(with PKCE). `erp-app` consists of two applications: one is a [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Rest API called `movies-api` and another is a [React](https://react.dev/) application called `movies-ui`.
+The goal of this project is to secure `erp-app` using [`Keycloak`](https://www.keycloak.org/)(with PKCE). `erp-app` consists of two applications: one is a [Spring Boot](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/) Rest API called `orders-api` and another is a [React](https://react.dev/) application called `order-ui`.
 
 ## Proof-of-Concepts & Articles
 
@@ -22,29 +22,29 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 
 ## Applications
 
-- ### movies-api
+- ### orders-api
 
-  `Spring Boot` Web Java backend application that exposes a REST API to manage **movies**. Its secured endpoints can just be accessed if an access token (JWT) issued by `Keycloak` is provided.
+  `Spring Boot` Web Java backend application that exposes a REST API to manage **orders**. Its secured endpoints can just be accessed if an access token (JWT) issued by `Keycloak` is provided.
   
-  `movies-api` stores its data in a [`Mongo`](https://www.mongodb.com/) database.
+  `orders-api` stores its data in a [`Mongo`](https://www.mongodb.com/) database.
 
-  `movie-api` has the following endpoints
+  `order-api` has the following endpoints
 
   | Endpoint                                                          | Secured | Roles                       |
   |-------------------------------------------------------------------|---------|-----------------------------|
   | `GET /api/userextras/me`                                          | Yes     | `MOVIES_MANAGER` and `USER` |
   | `POST /api/userextras/me -d {avatar}`                             | Yes     | `MOVIES_MANAGER` and `USER` | 
-  | `GET /api/movies`                                                 | No      |                             |
-  | `GET /api/movies/{imdbId}`                                        | No      |                             |
-  | `POST /api/movies -d {"imdb","title","director","year","poster"}` | Yes     | `MOVIES_MANAGER`            |
-  | `DELETE /api/movies/{imdbId}`                                     | Yes     | `MANAGE_MOVIES`             |
-  | `POST /api/movies/{imdbId}/comments -d {"text"}`                  | Yes     | `MOVIES_MANAGER` and `USER` |
+  | `GET /api/orders`                                                 | No      |                             |
+  | `GET /api/orders/{imdbId}`                                        | No      |                             |
+  | `POST /api/orders -d {"imdb","title","director","year","poster"}` | Yes     | `MOVIES_MANAGER`            |
+  | `DELETE /api/orders/{imdbId}`                                     | Yes     | `MANAGE_MOVIES`             |
+  | `POST /api/orders/{imdbId}/comments -d {"text"}`                  | Yes     | `MOVIES_MANAGER` and `USER` |
 
-- ### movies-ui
+- ### order-ui
 
-  `React` frontend application where `users` can see and comment movies and `admins` can manage movies. In order to access the application, `user` / `admin` must login using his/her username and password. Those credentials are handled by `Keycloak`. All the requests coming from `movies-ui` to secured endpoints in `movies-api` have a access token (JWT) that is generated when `user` / `admin` logs in.
+  `React` frontend application where `users` can see and comment orders and `admins` can manage orders. In order to access the application, `user` / `admin` must login using his/her username and password. Those credentials are handled by `Keycloak`. All the requests coming from `order-ui` to secured endpoints in `orders-api` have a access token (JWT) that is generated when `user` / `admin` logs in.
   
-  `movies-ui` uses [`Semantic UI React`](https://react.semantic-ui.com/) as CSS-styled framework.
+  `order-ui` uses [`Semantic UI React`](https://react.semantic-ui.com/) as CSS-styled framework.
 
 ## Prerequisites
 
@@ -55,9 +55,9 @@ On [ivangfr.github.io](https://ivangfr.github.io), I have compiled my Proof-of-C
 - [`jq`](https://stedolan.github.io/jq)
 - [`OMDb API`](https://www.omdbapi.com/) KEY
 
-  To use the `Wizard` option to search and add a movie, you need to get an API KEY from OMDb API. In order to do it, access https://www.omdbapi.com/apikey.aspx and follow the steps provided by the website.
+  To use the `Wizard` option to search and add a order, you need to get an API KEY from OMDb API. In order to do it, access https://www.omdbapi.com/apikey.aspx and follow the steps provided by the website.
 
-  Once you have the API KEY, create a file called `.env.local` in `springboot-react-keycloak/movies-ui` folder with the following content 
+  Once you have the API KEY, create a file called `.env.local` in `springboot-react-keycloak/order-ui` folder with the following content 
   ```
   REACT_APP_OMDB_API_KEY=<your-api-key>
   ```
@@ -78,11 +78,11 @@ As `Keycloak` supports [`PKCE`](https://tools.ietf.org/html/rfc7636) (`Proof Key
   docker-compose ps
   ```
 
-## Running movies-app using Maven & Npm
+## Running orders-app using Maven & Npm
 
-- **movies-api**
+- **orders-api**
 
-  - Open a terminal and navigate to `springboot-react-keycloak/movies-api` folder
+  - Open a terminal and navigate to `springboot-react-keycloak/orders-api` folder
 
   - Run the following `Maven` command to start the application
     ```
@@ -99,9 +99,9 @@ As `Keycloak` supports [`PKCE`](https://tools.ietf.org/html/rfc7636) (`Proof Key
 
   - We can also configure **Social Identity Providers** such as, `GitHub`, `Google`, `Facebook` and `Instagram`. I've written two articles in **Medium** where I explain step-by-step how to integrate [GitHub](https://medium.com/@ivangfr/integrating-github-as-a-social-identity-provider-in-keycloak-982f521a622f) and [Google](https://medium.com/@ivangfr/integrating-google-as-a-social-identity-provider-in-keycloak-c905577ec499).
 
-- **movies-ui**
+- **order-ui**
 
-  - Open another terminal and navigate to `springboot-react-keycloak/movies-ui` folder
+  - Open another terminal and navigate to `springboot-react-keycloak/order-ui` folder
 
   - Run the command below if you are running the application for the first time
     ```
@@ -117,23 +117,23 @@ As `Keycloak` supports [`PKCE`](https://tools.ietf.org/html/rfc7636) (`Proof Key
 
 | Application | URL                                   | Credentials                           |
 |-------------|---------------------------------------|---------------------------------------|
-| movie-api   | http://localhost:9080/swagger-ui.html | [Access Token](#getting-access-token) |
-| movie-ui    | http://localhost:3000                 | `admin/admin` or `user/user`          |
+| order-api   | http://localhost:9080/swagger-ui.html | [Access Token](#getting-access-token) |
+| order-ui    | http://localhost:3000                 | `admin/admin` or `user/user`          |
 | Keycloak    | http://localhost:8080/admin           | `admin/admin`                         |
 
 ## Demo
 
-- The gif below shows an `admin` logging in and adding one movie using the wizard feature
+- The gif below shows an `admin` logging in and adding one order using the wizard feature
 
   ![demo-admin](documentation/demo-admin.gif)
 
-- The gif below shows a `user` logging in using his Github account; then he changes his avatar and comment a movie
+- The gif below shows a `user` logging in using his Github account; then he changes his avatar and comment a order
 
   ![demo-user-github](documentation/demo-user-github.gif)
 
-## Testing movies-api endpoints
+## Testing orders-api endpoints
 
-You can manage movies by accessing directly `movies-api` endpoints using the Swagger website or `curl`. However, for the secured endpoints like `POST /api/movies`, `PUT /api/movies/{id}`, `DELETE /api/movies/{id}`, etc, you need to inform an access token issued by `Keycloak`.
+You can manage orders by accessing directly `orders-api` endpoints using the Swagger website or `curl`. However, for the secured endpoints like `POST /api/orders`, `PUT /api/orders/{id}`, `DELETE /api/orders/{id}`, etc, you need to inform an access token issued by `Keycloak`.
 
 ### Getting Access Token
 
@@ -153,11 +153,11 @@ You can manage movies by accessing directly `movies-api` endpoints using the Swa
   ```
   > **Note**: In [jwt.io](https://jwt.io), you can decode and verify the `JWT` access token
 
-### Calling movies-api endpoints using curl
+### Calling orders-api endpoints using curl
 
-- Trying to add a movie without access token
+- Trying to add a order without access token
   ```
-  curl -i -X POST "http://localhost:9080/api/movies" \
+  curl -i -X POST "http://localhost:9080/api/orders" \
     -H "Content-Type: application/json" \
     -d '{ "imdbId": "tt5580036", "title": "I, Tonya", "director": "Craig Gillespie", "year": 2017, "poster": "https://m.media-amazon.com/images/M/MV5BMjI5MDY1NjYzMl5BMl5BanBnXkFtZTgwNjIzNDAxNDM@._V1_SX300.jpg"}'
   ```
@@ -167,9 +167,9 @@ You can manage movies by accessing directly `movies-api` endpoints using the Swa
   HTTP/1.1 401
   ```
 
-- Trying again to add a movie, now with access token (obtained at #getting-access-token)
+- Trying again to add a order, now with access token (obtained at #getting-access-token)
   ```
-  curl -i -X POST "http://localhost:9080/api/movies" \
+  curl -i -X POST "http://localhost:9080/api/orders" \
     -H "Authorization: Bearer $ACCESS_TOKEN" \
     -H "Content-Type: application/json" \
     -d '{ "imdbId": "tt5580036", "title": "I, Tonya", "director": "Craig Gillespie", "year": 2017, "poster": "https://m.media-amazon.com/images/M/MV5BMjI5MDY1NjYzMl5BMl5BanBnXkFtZTgwNjIzNDAxNDM@._V1_SX300.jpg"}'
@@ -187,9 +187,9 @@ You can manage movies by accessing directly `movies-api` endpoints using the Swa
   }
   ```
 
-- Getting the list of movies. This endpoint does not requires access token
+- Getting the list of orders. This endpoint does not requires access token
   ```
-  curl -i http://localhost:9080/api/movies
+  curl -i http://localhost:9080/api/orders
   ```
 
   It should return
@@ -207,9 +207,9 @@ You can manage movies by accessing directly `movies-api` endpoints using the Swa
   ]
   ```
 
-### Calling movies-api endpoints using Swagger
+### Calling orders-api endpoints using Swagger
 
-- Access `movies-api` Swagger website, http://localhost:9080/swagger-ui.html
+- Access `orders-api` Swagger website, http://localhost:9080/swagger-ui.html
 
 - Click `Authorize` button.
 
@@ -221,25 +221,25 @@ You can manage movies by accessing directly `movies-api` endpoints using the Swa
 
 - **MongoDB**
 
-  List all movies
+  List all orders
   ```
-  docker exec -it mongodb mongosh moviesdb
-  db.movies.find()
+  docker exec -it mongodb mongosh ordersdb
+  db.orders.find()
   ```
   > Type `exit` to get out of MongoDB shell
 
 ## Shutdown
 
-- To stop `movies-api` and `movies-ui`, go to the terminals where they are running and press `Ctrl+C`
+- To stop `orders-api` and `order-ui`, go to the terminals where they are running and press `Ctrl+C`
 
 - To stop and remove docker-compose containers, network and volumes, go to a terminal and, inside `springboot-react-keycloak` root folder, run the command below
   ```
   docker-compose down -v
   ```
 
-## How to upgrade movies-ui dependencies to latest version
+## How to upgrade order-ui dependencies to latest version
 
-- In a terminal, make sure you are in `springboot-react-keycloak/movies-ui` folder
+- In a terminal, make sure you are in `springboot-react-keycloak/order-ui` folder
 
 - Run the following commands
   ```

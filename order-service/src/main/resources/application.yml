@@ -8,11 +8,11 @@ spring:
     hibernate:
       ddl-auto: create
   datasource:
-    url: jdbc:postgresql://postgresql:5432/orderdb
+    url: jdbc:postgresql://localhost:5433/orderdb
     username: postgres
     password: postgres
   keycloak:
-    server-url: https://keycloak.greeta.net
+    server-url: http://localhost:8080
   security:
     oauth2:
       resourceserver:
@@ -30,6 +30,9 @@ logging:
 
 info:
   system: Order Service
+
+server:
+  forward-headers-strategy: framework
 
 jwt:
   auth:
@@ -58,3 +61,9 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
+
+
+openapi:
+  oauthflow:
+    authServerUrl: http://localhost:8080
+    realm: order-realm

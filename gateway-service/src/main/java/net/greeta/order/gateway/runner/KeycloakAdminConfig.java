@@ -1,4 +1,4 @@
-package net.greeta.movie.gateway.runner;
+package net.greeta.order.gateway.runner;
 
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;

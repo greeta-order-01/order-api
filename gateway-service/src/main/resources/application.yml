@@ -15,13 +15,13 @@ spring:
           enabled: true
       routes:
         - id: order
-          uri: lb://order
+          uri: http://localhost:9081
           predicates:
             - Path=/order/**
           filters:
             - RewritePath=/order/(?<path>.*), /$\{path}
   keycloak:
-      server-url: http://keycloak-server:8080
+      server-url: http://localhost:8080
   security:
     oauth2:
       resourceserver:
@@ -39,9 +39,12 @@ order-app:
   base-url: http://localhost:3000
   redirect-url: ${order-app.base-url}/*
 
+server:
+  forward-headers-strategy: framework
+
 logging:
   pattern: 
-    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"  
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
     console: "%d{yyyy-MM-dd HH:mm:ss} ${LOG_LEVEL_PATTERN:-%5p} %m%n"
   level:
     org.springframework.cloud.kubernetes: TRACE
@@ -70,3 +73,19 @@ management:
   metrics:
     tags:
       application: ${spring.application.name}
+
+springdoc:
+  enable-native-support: true
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      # - url: /v3/api-docs
+      #   name: API Gateway Service
+      #   primaryName: API Gateway Service
+      - url: /order/v3/api-docs
+        name: Order Service
+        primaryName: Order Service

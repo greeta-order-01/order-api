@@ -1,4 +1,4 @@
-package net.greeta.movie.gateway.api;
+package net.greeta.order.gateway.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.route.RouteDefinitionLocator;

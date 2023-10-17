@@ -1,4 +1,4 @@
-package net.greeta.movie.gateway.security;
+package net.greeta.order.gateway.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -29,13 +29,14 @@ public class WebSecurityConfig {
                         .pathMatchers(HttpMethod.GET,"/", "/swagger-ui.html", "/swagger-ui/**").permitAll()
                         .pathMatchers(HttpMethod.GET,"/swagger-resources/**").permitAll()
                         .pathMatchers(HttpMethod.GET,"/v3/api-docs/**").permitAll()
-                        .pathMatchers(HttpMethod.GET,"/order/v3/api-docs/**").permitAll()
 
-                        .pathMatchers(HttpMethod.GET, "/order", "/order/**").permitAll()
-                        .pathMatchers("/order", "/order/**").hasRole(ORDER_MANAGER)
-                        .pathMatchers("/order/users", "/order/users/**").hasAnyRole(ORDER_MANAGER, ORDER_USER)
-                        .pathMatchers("/order/public", "/order/public/**").hasAnyRole(ORDER_MANAGER, ORDER_USER)
-                        .pathMatchers("/order/auth", "/order/auth/**").hasAnyRole(ORDER_MANAGER, ORDER_USER)
+                        .pathMatchers(HttpMethod.POST, "/order", "/order/**").hasAnyRole(ORDER_MANAGER, ORDER_USER)
+                        .pathMatchers(HttpMethod.GET, "/order/users/me").hasAnyRole(ORDER_MANAGER, ORDER_USER)
+                        .pathMatchers("/order/users", "/order/users/**").hasRole(ORDER_MANAGER)
+                        .pathMatchers("/order/public", "/order/public/**", "/order/auth", "/order/auth/**").permitAll()
+                        .pathMatchers("/order/swagger-ui.html", "/order/swagger-ui/**", "/order/v3/api-docs", "/order/v3/api-docs/**").permitAll()
+                        .pathMatchers("/order", "/order/**").hasAnyRole(ORDER_MANAGER, ORDER_USER)
+
                         .anyExchange().authenticated()
                         .and()
                         .csrf(csrf -> csrf.csrfTokenRepository(CookieServerCsrfTokenRepository.withHttpOnlyFalse()))

@@ -1,4 +1,4 @@
-package net.greeta.movie.gateway.config;
+package net.greeta.order.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;

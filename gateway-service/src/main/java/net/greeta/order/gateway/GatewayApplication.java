@@ -1,4 +1,4 @@
-package net.greeta.movie.gateway;
+package net.greeta.order.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

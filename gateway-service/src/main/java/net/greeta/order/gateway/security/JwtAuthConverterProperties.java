@@ -1,4 +1,4 @@
-package net.greeta.movie.gateway.security;
+package net.greeta.order.gateway.security;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

@@ -3,7 +3,7 @@ on: push
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_OWNER: greeta-movie
+  IMAGE_OWNER: greeta-order-01
   VERSION: ${{ github.sha }}
 
 jobs:
@@ -28,18 +28,10 @@ jobs:
         run: |
           mvn clean install -DskipTests
       - name: Build container images
-        run: |
-          cd vote-service/vote.cmd
+        run: |       
+          cd order-service
           mvn spring-boot:build-image -DskipTests \
-            -Dspring-boot.build-image.imageName=${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/vote-cmd-service:${{ env.VERSION }}
-          cd ../../
-          cd vote-service/vote.query
-          mvn spring-boot:build-image -DskipTests \
-            -Dspring-boot.build-image.imageName=${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/vote-query-service:${{ env.VERSION }}
-          cd ../../          
-          cd movie-service
-          mvn spring-boot:build-image -DskipTests \
-            -Dspring-boot.build-image.imageName=${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/movie-service:${{ env.VERSION }}
+            -Dspring-boot.build-image.imageName=${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/order-service:${{ env.VERSION }}
           cd ../
           cd gateway-service
           mvn spring-boot:build-image -DskipTests \
@@ -53,21 +45,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish container image
         run:  |
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/vote-cmd-service:${{ env.VERSION }}
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/vote-query-service:${{ env.VERSION }}
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/movie-service:${{ env.VERSION }}
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/order-service:${{ env.VERSION }}
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/gateway-service:${{ env.VERSION }}
       - name: Publish container image (latest)
         run: |
-          docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/account-cmd-service:${{ env.VERSION }} \
-            ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/account-cmd-service:latest
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/account-cmd-service:latest
-          docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/account-query-service:${{ env.VERSION }} \
-            ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/account-query-service:latest
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/account-query-service:latest
-          docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/movie-service:${{ env.VERSION }} \
-            ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/movie-service:latest
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/movie-service:latest
+          docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/order-service:${{ env.VERSION }} \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/order-service:latest
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/order-service:latest
           docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/gateway-service:${{ env.VERSION }} \
             ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/gateway-service:latest
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/gateway-service:latest

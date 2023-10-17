@@ -20,15 +20,13 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers(HttpMethod.GET, "", "/", "/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/actuator/**").permitAll()
-                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("", "/", "/**").hasRole(ORDER_MANAGER)
 
-                        .requestMatchers(HttpMethod.GET, "/users/me").hasAnyAuthority(ORDER_MANAGER, ORDER_USER)
-                        .requestMatchers("/users", "/users/**").hasAuthority(ORDER_MANAGER)
+                        .requestMatchers(HttpMethod.POST, "", "/", "/**").hasAnyRole(ORDER_MANAGER, ORDER_USER)
+                        .requestMatchers(HttpMethod.GET, "/users/me").hasAnyRole(ORDER_MANAGER, ORDER_USER)
+                        .requestMatchers("/users", "/users/**").hasRole(ORDER_MANAGER)
                         .requestMatchers("/public/**", "/auth/**").permitAll()
-
+                        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("", "/", "/**").hasAnyRole(ORDER_MANAGER, ORDER_USER)
 
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(

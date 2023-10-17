@@ -1,5 +1,7 @@
 package net.greeta.order.rest;
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import net.greeta.order.mapper.OrderMapper;
 import net.greeta.order.model.Order;
 import net.greeta.order.model.User;
@@ -7,19 +9,13 @@ import net.greeta.order.rest.dto.CreateOrderRequest;
 import net.greeta.order.rest.dto.OrderDto;
 import net.greeta.order.service.OrderService;
 import net.greeta.order.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;

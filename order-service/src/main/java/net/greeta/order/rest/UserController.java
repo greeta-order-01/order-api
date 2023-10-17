@@ -1,18 +1,23 @@
 package net.greeta.order.rest;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import net.greeta.order.mapper.UserMapper;
 import net.greeta.order.model.User;
 import net.greeta.order.rest.dto.UserDto;
+import net.greeta.order.security.WebSecurityConfig;
 import net.greeta.order.service.UserService;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -26,6 +31,13 @@ public class UserController {
     @GetMapping("/me")
     public UserDto getCurrentUser(JwtAuthenticationToken token) {
         return userMapper.toUserDto(userService.validateAndGetUserByUsername(token.getName()));
+    }
+
+    @PostMapping("/me")
+    public UserDto saveUserExtra(JwtAuthenticationToken token) {
+        String username = token.getName();
+        return userMapper.toUserDto(userService.saveUser(new User(username, username,
+                username + "@example.com", WebSecurityConfig.ORDER_USER)));
     }
 
     @GetMapping

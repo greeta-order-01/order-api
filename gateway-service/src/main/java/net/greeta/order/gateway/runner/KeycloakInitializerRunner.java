@@ -1,7 +1,7 @@
-package net.greeta.movie.gateway.runner;
+package net.greeta.order.gateway.runner;
 
 import lombok.extern.slf4j.Slf4j;
-import net.greeta.movie.gateway.security.WebSecurityConfig;
+import net.greeta.order.gateway.security.WebSecurityConfig;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.representations.idm.ClientRepresentation;

@@ -1,4 +1,4 @@
-package net.greeta.movie.gateway.security;
+package net.greeta.order.gateway.security;
 
 import org.springframework.cloud.gateway.config.GlobalCorsProperties;
 import org.springframework.context.annotation.Bean;
