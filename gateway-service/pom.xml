@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>net.greeta.order</groupId>
-        <artifactId>sample-spring-microservices-kubernetes</artifactId>
+        <artifactId>order-parent</artifactId>
         <version>1.1</version>
     </parent>
     <artifactId>gateway-service</artifactId>

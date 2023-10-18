@@ -20,6 +20,12 @@ spring:
             - Path=/order/**
           filters:
             - RewritePath=/order/(?<path>.*), /$\{path}
+        - id: erp
+          uri: http://localhost:9082
+          predicates:
+            - Path=/erp/**
+          filters:
+            - RewritePath=/erp/(?<path>.*), /$\{path}
   keycloak:
       server-url: http://localhost:8080
   security:
@@ -80,6 +86,7 @@ springdoc:
     enabled: true
   swagger-ui:
     enabled: true
+    groups-order: DESC
     path: /
     config-url: /v3/api-docs/swagger-config
     urls:
@@ -88,4 +95,5 @@ springdoc:
       #   primaryName: API Gateway Service
       - url: /order/v3/api-docs
         name: Order Service
-        primaryName: Order Service
+      - url: /erp/v3/api-docs
+        name: ERP Service

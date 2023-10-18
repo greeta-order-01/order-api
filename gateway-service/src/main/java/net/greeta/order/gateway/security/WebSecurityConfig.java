@@ -30,6 +30,7 @@ public class WebSecurityConfig {
                         .pathMatchers(HttpMethod.GET,"/swagger-resources/**").permitAll()
                         .pathMatchers(HttpMethod.GET,"/v3/api-docs/**").permitAll()
 
+                        .pathMatchers("/erp", "/erp/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "/order", "/order/**").hasAnyRole(ORDER_MANAGER, ORDER_USER)
                         .pathMatchers(HttpMethod.GET, "/order/users/me").hasAnyRole(ORDER_MANAGER, ORDER_USER)
                         .pathMatchers("/order/users", "/order/users/**").hasRole(ORDER_MANAGER)

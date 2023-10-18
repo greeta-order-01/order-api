@@ -28,10 +28,14 @@ jobs:
         run: |
           mvn clean install -DskipTests
       - name: Build container images
-        run: |       
+        run: |
           cd order-service
           mvn spring-boot:build-image -DskipTests \
             -Dspring-boot.build-image.imageName=${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/order-service:${{ env.VERSION }}
+          cd ../
+          cd erp-service
+          mvn spring-boot:build-image -DskipTests \
+            -Dspring-boot.build-image.imageName=${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/erp-service:${{ env.VERSION }}
           cd ../
           cd gateway-service
           mvn spring-boot:build-image -DskipTests \
@@ -46,12 +50,18 @@ jobs:
       - name: Publish container image
         run:  |
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/order-service:${{ env.VERSION }}
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/erp-service:${{ env.VERSION }}
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/gateway-service:${{ env.VERSION }}
       - name: Publish container image (latest)
         run: |
           docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/order-service:${{ env.VERSION }} \
             ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/order-service:latest
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/order-service:latest
+          
+          docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/erp-service:${{ env.VERSION }} \
+            ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/erp-service:latest
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/erp-service:latest
+                    
           docker tag ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/gateway-service:${{ env.VERSION }} \
             ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/gateway-service:latest
           docker push ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/gateway-service:latest
