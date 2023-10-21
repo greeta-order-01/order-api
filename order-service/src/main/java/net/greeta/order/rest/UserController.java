@@ -4,7 +4,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import net.greeta.order.mapper.UserMapper;
 import net.greeta.order.model.User;
+import net.greeta.order.rest.dto.CreateOrderRequest;
+import net.greeta.order.rest.dto.CreateUserRequest;
 import net.greeta.order.rest.dto.UserDto;
+import net.greeta.order.rest.dto.UserExistsDto;
 import net.greeta.order.security.WebSecurityConfig;
 import net.greeta.order.service.UserService;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
@@ -33,11 +36,16 @@ public class UserController {
         return userMapper.toUserDto(userService.validateAndGetUserByUsername(token.getName()));
     }
 
+    @GetMapping("/meExists")
+    public UserExistsDto isCurrentUserExists(JwtAuthenticationToken token) {
+        return new UserExistsDto(userService.hasUserWithUsername(token.getName()));
+    }
+
     @PostMapping("/me")
-    public UserDto saveUserExtra(JwtAuthenticationToken token) {
+    public UserDto saveUser(@Valid @RequestBody CreateUserRequest createUserRequest, JwtAuthenticationToken token) {
         String username = token.getName();
-        return userMapper.toUserDto(userService.saveUser(new User(username, username,
-                username + "@example.com", WebSecurityConfig.ORDER_USER)));
+        return userMapper.toUserDto(userService.saveUser(new User(username, createUserRequest.getName(),
+                createUserRequest.getEmail(), WebSecurityConfig.ORDER_USER)));
     }
 
     @GetMapping

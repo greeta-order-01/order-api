@@ -22,7 +22,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
 
                         .requestMatchers(HttpMethod.POST, "", "/", "/**").hasAnyRole(ORDER_MANAGER, ORDER_USER)
-                        .requestMatchers(HttpMethod.GET, "/users/me").hasAnyRole(ORDER_MANAGER, ORDER_USER)
+                        .requestMatchers(HttpMethod.GET, "/users/me", "/users/meExists").hasAnyRole(ORDER_MANAGER, ORDER_USER)
                         .requestMatchers("/users", "/users/**").hasRole(ORDER_MANAGER)
                         .requestMatchers("/public/**", "/auth/**").permitAll()
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()

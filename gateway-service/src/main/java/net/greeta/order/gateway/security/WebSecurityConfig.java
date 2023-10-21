@@ -32,7 +32,7 @@ public class WebSecurityConfig {
 
                         .pathMatchers("/erp", "/erp/**").permitAll()
                         .pathMatchers(HttpMethod.POST, "/order", "/order/**").hasAnyRole(ORDER_MANAGER, ORDER_USER)
-                        .pathMatchers(HttpMethod.GET, "/order/users/me").hasAnyRole(ORDER_MANAGER, ORDER_USER)
+                        .pathMatchers(HttpMethod.GET, "/order/users/me", "/order/users/meExists").hasAnyRole(ORDER_MANAGER, ORDER_USER)
                         .pathMatchers("/order/users", "/order/users/**").hasRole(ORDER_MANAGER)
                         .pathMatchers("/order/public", "/order/public/**", "/order/auth", "/order/auth/**").permitAll()
                         .pathMatchers("/order/swagger-ui.html", "/order/swagger-ui/**", "/order/v3/api-docs", "/order/v3/api-docs/**").permitAll()
