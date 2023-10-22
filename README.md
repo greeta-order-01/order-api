@@ -7,7 +7,7 @@
 
 ###### **admin password:** admin
 
-**Orders Online UI**, secured with **Keycloak Server** will be available here: **https://order.yourdomain.com**
+**Order UI**, secured with **Keycloak Server** will be available here: **https://order.yourdomain.com**
 
 ###### **manager user:** admin
 
