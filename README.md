@@ -43,7 +43,7 @@
 
 **https://github.com/greeta-order-01/order-infra** (Terraform Infrastructure and GitOps Pipeline)
 
-**https://github.com/greeta-order/order-ui** (UI Source Code and Docker Images Repository)
+**https://github.com/greeta-order-01/order-ui** (UI Source Code and Docker Images Repository)
 
 ### Step-02: Prepare Your AWS Account
 
